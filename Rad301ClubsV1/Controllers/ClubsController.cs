@@ -11,7 +11,7 @@ using Rad301ClubsV1.Models.ClubModel;
 
 namespace Rad301ClubsV1.Controllers
 {
-    [Authorize(Roles = "Admin,ClubAdmin")]
+   // [Authorize(Roles = "Admin,ClubAdmin")]
     public class ClubsController : Controller
     {
         private ClubContext db = new ClubContext();
@@ -24,6 +24,17 @@ namespace Rad301ClubsV1.Controllers
                 .ToListAsync()
                 );
         }
+
+        public async Task<ActionResult> AllClubDetails(string ClubName = null)
+        {
+            ViewBag.cname = ClubName;
+            var fullClub = db.Clubs
+                .Include("clubEvents")
+                .Where(c => ClubName == null || c.ClubName.StartsWith(ClubName))
+                .ToListAsync();
+            return View(await fullClub);
+        }
+
 
         // GET: Clubs/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -123,6 +134,14 @@ namespace Rad301ClubsV1.Controllers
             return RedirectToAction("Index");
         }
 
+        #region Partials
+        public PartialViewResult _ClubEvents(int id)
+        {
+            var qry = db.ClubEvents.Where(ce => ce.ClubId == id).ToList();
+            return PartialView(qry);
+        }
+
+        #endregion
         protected override void Dispose(bool disposing)
         {
             if (disposing)

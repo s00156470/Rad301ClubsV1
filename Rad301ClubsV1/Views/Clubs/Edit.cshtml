@@ -46,6 +46,12 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
+
+        <div class="form-inline" id="ClubEvents">
+            @Html.Action(actionName: "_ClubEvents",
+                    controllerName: "ClubEvents", routeValues: new { id = Model.ClubId })
+        </div>
+
     </div>
 }
 
