@@ -16,8 +16,8 @@ namespace Rad301ClubsV1.Models.ClubModel
         public int ClubId { get; set; }
         public string ClubName { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime CreationDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+        public DateTime? CreationDate { get; set; }
 
         public int adminID { get; set; }
         public virtual ICollection<Member> clubMembers { get; set; }

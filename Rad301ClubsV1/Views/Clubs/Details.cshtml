@@ -35,6 +35,10 @@
         </dd>
 
     </dl>
+    <div class="form-inline" id="Members">
+        @Html.Action(actionName: "_Memberinos",
+                    controllerName: "Members", routeValues: new { id = Model.ClubId })
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ClubId }) |

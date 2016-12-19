@@ -185,9 +185,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClubEventsController.cs" />
     <Compile Include="Controllers\ClubsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -199,6 +201,10 @@
     <Compile Include="Migrations\ClubModelMigrations\201611011805192_Initial.cs" />
     <Compile Include="Migrations\ClubModelMigrations\201611011805192_Initial.Designer.cs">
       <DependentUpon>201611011805192_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ClubModelMigrations\201612190115457_anotherMigrationAfterILost4HoursOfWork.cs" />
+    <Compile Include="Migrations\ClubModelMigrations\201612190115457_anotherMigrationAfterILost4HoursOfWork.Designer.cs">
+      <DependentUpon>201612190115457_anotherMigrationAfterILost4HoursOfWork.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ClubModelMigrations\Configuration.cs" />
     <Compile Include="Migrations\ClubModelMigrations\StudentData.cs" />
@@ -226,6 +232,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <EmbeddedResource Include="Migrations\201611111008459_Initial.resx">
       <DependentUpon>201611111008459_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ClubModelMigrations\201612190115457_anotherMigrationAfterILost4HoursOfWork.resx">
+      <DependentUpon>201612190115457_anotherMigrationAfterILost4HoursOfWork.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ClubModelMigrations\TestStudents.csv" />
     <None Include="Properties\PublishProfiles\pprad301ClubsApp - FTP.pubxml" />
@@ -289,7 +298,20 @@
     <Content Include="Views\Students\Edit.cshtml" />
     <Content Include="Views\Students\Index.cshtml" />
     <Content Include="Views\Clubs\AllClubDetails.cshtml" />
-    <Content Include="Views\Clubs\_ClubEvents.cshtml" />
+    <Content Include="Views\ClubEvents\_ClubEvents.cshtml" />
+    <Content Include="Views\Members\Create.cshtml" />
+    <Content Include="Views\Members\Delete.cshtml" />
+    <Content Include="Views\Members\Details.cshtml" />
+    <Content Include="Views\Members\Edit.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\ClubEvents\Create.cshtml" />
+    <Content Include="Views\ClubEvents\Delete.cshtml" />
+    <Content Include="Views\ClubEvents\Details.cshtml" />
+    <Content Include="Views\ClubEvents\Edit.cshtml" />
+    <Content Include="Views\ClubEvents\Index.cshtml" />
+    <Content Include="Views\Members\_Memberinos.cshtml" />
+    <Content Include="Views\ClubEvents\_Create.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

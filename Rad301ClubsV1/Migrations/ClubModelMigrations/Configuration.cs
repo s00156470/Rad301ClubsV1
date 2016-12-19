@@ -81,5 +81,6 @@ namespace Rad301ClubsV1.Migrations.ClubModelMigrations
             //    throw new Exception { Source = e.Message };
             //}
         }
+
     }
 }

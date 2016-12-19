@@ -11,146 +11,126 @@ using Rad301ClubsV1.Models.ClubModel;
 
 namespace Rad301ClubsV1.Controllers
 {
-   // [Authorize(Roles = "Admin,ClubAdmin")]
-    public class ClubsController : Controller
+    public class MembersController : Controller
     {
         private ClubContext db = new ClubContext();
 
-        // GET: Clubs
-        public async Task<ActionResult> Index(string ClubName = null )
+        // GET: Members
+        public async Task<ActionResult> Index()
         {
-            return View(await db.Clubs
-                .Where(c => ClubName == null || c.ClubName.StartsWith(ClubName))
-                .ToListAsync()
-                );
+            var members = db.members.Include(m => m.club).Include(m => m.student);
+            return View(await members.ToListAsync());
         }
 
-        public async Task<ActionResult> AllClubDetails(string ClubName = null)
-        {
-            ViewBag.cname = ClubName;
-            var fullClub = db.Clubs
-                .Include("clubEvents")
-                .Where(c => ClubName == null || c.ClubName.StartsWith(ClubName))
-                .ToListAsync();
-            return View(await fullClub);
-        }
-
-
-        // GET: Clubs/Details/5
+        // GET: Members/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Club club = await db.Clubs.FindAsync(id);
-            if (club == null)
+            Member member = await db.members.FindAsync(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(club);
+            return View(member);
         }
 
-        // GET: Clubs/Create
-        [Authorize(Roles = "Admin")]
+        // GET: Members/Create
         public ActionResult Create()
         {
+            ViewBag.ClubId = new SelectList(db.Clubs, "ClubId", "ClubName");
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "Fname");
             return View();
         }
 
-        // POST: Clubs/Create
+        // POST: Members/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles ="Admin")]
-        public async Task<ActionResult> Create([Bind(Include = "ClubId,ClubName,CreationDate")] Club club)
+        public async Task<ActionResult> Create([Bind(Include = "memberID,ClubId,StudentID,approved")] Member member)
         {
             if (ModelState.IsValid)
             {
-                db.Clubs.Add(club);
+                db.members.Add(member);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(club);
-        }
-        public PartialViewResult _Create(int ClubId)
-        {
-            return PartialView(new ClubEvent()
-            { StartDateTime = DateTime.Now,
-                EndDateTime = DateTime.Now,
-                ClubId = ClubId });
+            ViewBag.ClubId = new SelectList(db.Clubs, "ClubId", "ClubName", member.ClubId);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "Fname", member.StudentID);
+            return View(member);
         }
 
-
-        // GET: Clubs/Edit/5
+        // GET: Members/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Club club = await db.Clubs.FindAsync(id);
-            if (club == null)
+            Member member = await db.members.FindAsync(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(club);
+            ViewBag.ClubId = new SelectList(db.Clubs, "ClubId", "ClubName", member.ClubId);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "Fname", member.StudentID);
+            return View(member);
         }
 
-        // POST: Clubs/Edit/5
+
+        // POST: Members/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ClubId,ClubName,CreationDate")] Club club)
+        public async Task<ActionResult> Edit([Bind(Include = "memberID,ClubId,StudentID,approved")] Member member)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(club).State = EntityState.Modified;
+                db.Entry(member).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(club);
+            ViewBag.ClubId = new SelectList(db.Clubs, "ClubId", "ClubName", member.ClubId);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "Fname", member.StudentID);
+            return View(member);
+        }
+        public PartialViewResult _Memberinos(int id)
+        {
+            var qry = db.members.Where(ce => ce.ClubId == id).ToList();
+            return PartialView(qry);
         }
 
-        // GET: Clubs/Delete/5
-        [Authorize(Roles = "Admin")]
+        // GET: Members/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Club club = await db.Clubs.FindAsync(id);
-            if (club == null)
+            Member member = await db.members.FindAsync(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(club);
+            return View(member);
         }
 
-        // POST: Clubs/Delete/5
+        // POST: Members/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Club club = await db.Clubs.FindAsync(id);
-            db.Clubs.Remove(club);
+            Member member = await db.members.FindAsync(id);
+            db.members.Remove(member);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        #region Partials
-        //public PartialViewResult _ClubEvents(int id)
-        //{
-        //    var qry = db.ClubEvents.Where(ce => ce.ClubId == id).ToList();
-        //    return PartialView(qry);
-        //}
-
-
-        #endregion
         protected override void Dispose(bool disposing)
         {
             if (disposing)

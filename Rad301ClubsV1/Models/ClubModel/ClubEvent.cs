@@ -19,8 +19,12 @@ namespace Rad301ClubsV1.Models.ClubModel
         [ForeignKey("associatedClub")]
         public int ClubId { get; set; }
         public virtual Club associatedClub { get; set; }
-        public DateTime StartDateTime { get; set; }
-        public DateTime EndDateTime { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy / MM / dd HH: mm:ss}")]
+        public DateTime? StartDateTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+        public DateTime? EndDateTime { get; set; }
+
         public virtual ICollection<Member> attendees { get; set; }
 
     }

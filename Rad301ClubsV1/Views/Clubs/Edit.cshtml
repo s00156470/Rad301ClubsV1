@@ -7,12 +7,12 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("_Create", "ClubEvents", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Club</h4>
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ClubId)
@@ -50,6 +50,11 @@
         <div class="form-inline" id="ClubEvents">
             @Html.Action(actionName: "_ClubEvents",
                     controllerName: "ClubEvents", routeValues: new { id = Model.ClubId })
+        </div>
+        <div id="ClubEventCreate">
+            @Html.Action(actionName: "_Create",
+                    controllerName: "ClubEvents",
+                    routeValues: new { ClubId = Model.ClubId })
         </div>
 
     </div>
